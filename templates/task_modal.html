@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h3>{{ task.title }}</h3>
+
+  <p><strong>Description</strong></p>
+  <p>{{ task.description or "No additional instructions provided." }}</p>
+
+  <p><strong>Assigned to:</strong>
+     {{ task.assigned_worker or "Unassigned" }}</p>
+
+  <p><strong>Due date:</strong> {{ task.due_date }}</p>
+
+  <a href="{{ url_for('board.supervisor_board') }}">Close</a>
+</body>
+</html>

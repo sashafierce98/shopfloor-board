@@ -1,0 +1,41 @@
+# .railwayignore
+# Files to ignore during Railway deployment
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+env/
+.env
+*.log
+.DS_Store
+.git/
+.gitignore
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.pytest_cache
+.tox/
+*.egg-info/
+dist/
+build/
+node_modules/
+.railway/
+
+# Keep but don't track
+data/
+instance/
+
+# Documentation (keep for reference)
+# *.md files are OK to include
+
+# Test files
+test_*.py
+*_test.py
+.pytest_cache/

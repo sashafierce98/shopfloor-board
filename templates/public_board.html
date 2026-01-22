@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="refresh" content="900">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="worker-page">
+    <h2 style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px; background: linear-gradient(135deg, #00a878 0%, #006d52 100%); color: white; padding: 20px 24px; margin: -24px -24px 24px -24px; font-size: 1.8rem; letter-spacing: 0.3px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="TGP Bioplastics Logo" style="height: 50px; object-fit: contain;">
+      <span>TGP Bioplastics - Work Board</span>
+    </h2>
+
+    <div class="columns">
+
+      <div class="column">
+        <h3>Unassigned</h3>
+        {% for task in tasks if task.status == "unassigned" %}
+          <div class="task task-{{ task.priority }}">
+            <div class="task-title">{{ task.title }}</div>
+            {% if task.description %}
+              <div class="task-description">{{ task.description }}</div>
+            {% endif %}
+            <div class="task-meta">
+              <div>👤 {{ worker_lookup.get(task.assigned_worker, "Unassigned") }}</div>
+              <div>📅 {{ task.due_date.strftime('%b %d') if task.due_date else 'No date' }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="column">
+        <h3>Active</h3>
+        {% for task in tasks if task.status == "active" %}
+          <div class="task task-{{ task.priority }}">
+            <div class="task-title">{{ task.title }}</div>
+            {% if task.description %}
+              <div class="task-description">{{ task.description }}</div>
+            {% endif %}
+            <div class="task-meta">
+              <div>👤 {{ worker_lookup.get(task.assigned_worker, "Unassigned") }}</div>
+              <div>📅 {{ task.due_date.strftime('%b %d') if task.due_date else 'No date' }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="column">
+        <h3>Done</h3>
+        {% for task in tasks if task.status == "done" %}
+          <div class="task task-{{ task.priority }}">
+            <div class="task-title">{{ task.title }}</div>
+            {% if task.description %}
+              <div class="task-description">{{ task.description }}</div>
+            {% endif %}
+            <div class="task-meta">
+              <div>👤 {{ worker_lookup.get(task.assigned_worker, "Unassigned") }}</div>
+              <div>📅 {{ task.due_date.strftime('%b %d') if task.due_date else 'No date' }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
