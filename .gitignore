@@ -130,5 +130,7 @@ data/
 # Railway specific
 .railway/
 
-# Git
-.git
+# GitHub setup (local only)
+.github/
+GITHUB_SETUP.md
+
