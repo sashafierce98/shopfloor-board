@@ -15,7 +15,7 @@
 
       <div class="column">
         <h3>Unassigned</h3>
-        {% for task in tasks if task.status == "not_started" %}
+        {% for task in tasks if task.status in ["unassigned", "not_started"] %}
           <div class="task task-{{ task.priority }}">
             <div class="task-title">{{ task.title }}</div>
             {% if task.description %}
