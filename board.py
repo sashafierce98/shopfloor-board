@@ -42,8 +42,12 @@ def index():
 @board_bp.route("/public")
 @login_required
 def public_board():
-    tasks = Task.query.all()
     today = date.today()
+    # Exclude done tasks from previous days - only show today's completed tasks
+    tasks = Task.query.filter(
+        (Task.status != "done") |
+        ((Task.status == "done") & (Task.completed_at >= datetime.combine(today, datetime.min.time())))
+    ).all()
     workers = Worker.query.all()
     worker_lookup = {w.id: w.name for w in workers}
     return render_template("public_board.html", tasks=tasks, today=today, worker_lookup=worker_lookup)
@@ -132,6 +136,10 @@ def supervisor_board():
         status="scheduled"
     ).order_by(Task.due_date).all()
 
+    completed_tasks = Task.query.filter_by(
+        status="done"
+    ).order_by(Task.completed_at.desc()).all()
+
     workers = Worker.query.all()
     worker_lookup = {w.id: w.name for w in workers}
 
@@ -159,6 +167,7 @@ def supervisor_board():
     unassigned_tasks=unassigned_tasks,
     current_tasks=current_tasks,
     backlog_tasks=backlog_tasks,
+    completed_tasks=completed_tasks,
     workers=workers,
     worker_lookup=worker_lookup,
     worker_summary=worker_summary

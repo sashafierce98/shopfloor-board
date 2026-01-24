@@ -231,7 +231,42 @@
         </aside>
 
       </div>
+
     <hr>
+
+    <!-- COMPLETED TASKS SECTION -->
+    <section class="completed-section">
+      <h3 style="background: #d1fae5; padding: 12px 16px; margin: 0 0 16px 0; border-radius: 8px; color: #006d52; font-size: 1.2rem; font-weight: 600;">✅ Task History</h3>
+
+      {% if completed_tasks %}
+        <div class="completed-tasks-grid">
+          {% for task in completed_tasks %}
+            <div class="task-card completed">
+              <div class="task-title">{{ task.title }}</div>
+
+              {% if task.description %}
+                <div class="task-desc">{{ task.description }}</div>
+              {% endif %}
+
+              <div class="task-meta">
+                <div><strong>Assigned:</strong> {{ worker_lookup.get(task.assigned_worker, "Unassigned") }}</div>
+                <div><strong>Completed:</strong> {{ task.completed_at.strftime('%b %d, %I:%M %p') if task.completed_at else 'Unknown' }}</div>
+                <div><strong>Due:</strong> {{ task.due_date.strftime('%b %d') if task.due_date else 'No date' }}</div>
+              </div>
+
+              <form method="post"
+                    action="{{ url_for('board.delete_task', task_id=task.id) }}"
+                    onsubmit="return confirm('Delete this completed task?');"
+                    style="margin-top: 8px;">
+                <button type="submit" class="delete-btn" style="width: 100%; background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.75rem; padding: 5px;">Remove from history</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-hint">No completed tasks yet</p>
+      {% endif %}
+    </section>
   </div>
 </body>
 </html>

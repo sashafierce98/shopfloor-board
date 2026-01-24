@@ -384,6 +384,41 @@ button:hover {
   color: #555;
 }
 
+/* ===== COMPLETED TASKS ===== */
+.supervisor-page .completed-section {
+  width: 100%;
+  padding: 0;
+  margin-top: 32px;
+}
+
+.supervisor-page .completed-tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.supervisor-page .task-card.completed {
+  background: #f0fdf4;
+  border-left: 6px solid #27d4a8;
+  opacity: 0.95;
+}
+
+.supervisor-page .task-card.completed .task-meta {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.empty-hint {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 1024px) {
   /* Worker board - tablet */
@@ -541,5 +576,9 @@ button:hover {
   .supervisor-page > div a {
     font-size: 0.8rem;
     padding: 8px 12px !important;
+  }
+
+  .supervisor-page .completed-tasks-grid {
+    grid-template-columns: 1fr;
   }
 }
