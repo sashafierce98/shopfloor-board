@@ -40,6 +40,7 @@ def index():
     return redirect(url_for("board.supervisor_board"))
 
 @board_bp.route("/public")
+@login_required
 def public_board():
     tasks = Task.query.all()
     today = date.today()
