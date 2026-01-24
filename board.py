@@ -34,6 +34,12 @@ def promote_scheduled_task(worker_id):
 
 
 @board_bp.route("/")
+@login_required
+def index():
+    """Redirect to supervisor board for authenticated users."""
+    return redirect(url_for("board.supervisor_board"))
+
+@board_bp.route("/public")
 def public_board():
     tasks = Task.query.all()
     today = date.today()
