@@ -194,6 +194,22 @@ def update_task_status(task_id):
             # Promote scheduled task if worker has one
             if task.assigned_worker:
                 promote_scheduled_task(task.assigned_worker)
+        elif new_status == "active":
+            # Check worker capacity before promoting to active
+            if task.assigned_worker:
+                active_count = Task.query.filter_by(
+                    assigned_worker=task.assigned_worker,
+                    status="active"
+                ).count()
+                
+                if active_count >= 3:
+                    flash("Cannot promote: worker is at capacity (3 active tasks)", "error")
+                    return redirect(url_for("board.supervisor_board"))
+            
+            task.status = new_status
+            task.completed_at = None
+            db.session.commit()
+            logger.info(f"Task {task_id} status changed from {old_status} to {new_status} by {current_user.username}")
         else:
             task.status = new_status
             task.completed_at = None
