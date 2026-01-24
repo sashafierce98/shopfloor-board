@@ -98,7 +98,12 @@ body {
   background: #f5f7f9;
   color: #2e2e2e;
   margin: 0;
-  padding: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h2, h3 {
@@ -377,4 +382,164 @@ button:hover {
 .supervisor-page .worker-meta {
   font-size: 0.85rem;
   color: #555;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  /* Worker board - tablet */
+  .worker-page .columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .worker-page > h2 {
+    font-size: 1.4rem;
+    padding: 16px 20px;
+    margin: -16px -16px 16px -16px;
+  }
+
+  body {
+    padding: 12px;
+  }
+
+  /* Supervisor board - tablet */
+  .supervisor-page .main-column {
+    grid-template-columns: 1fr;
+  }
+
+  .supervisor-page .task-grid,
+  .supervisor-page .task-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Worker board - mobile */
+  .worker-page .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .worker-page > h2 {
+    font-size: 1.2rem;
+    padding: 14px 16px;
+    margin: -14px -14px 14px -14px;
+    gap: 12px;
+  }
+
+  .worker-page > h2 img {
+    height: 40px;
+  }
+
+  .worker-page .task-title {
+    font-size: 0.9rem;
+  }
+
+  .worker-page .task-description {
+    font-size: 0.8rem;
+  }
+
+  .worker-page .task-meta {
+    font-size: 0.75rem;
+  }
+
+  /* Supervisor board - mobile */
+  .supervisor-page > div {
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 14px 16px !important;
+    margin: -14px -14px 14px -14px !important;
+  }
+
+  .supervisor-page > div > div:last-child {
+    width: 100%;
+    flex-direction: column !important;
+  }
+
+  .supervisor-page > div a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .supervisor-page .main-column {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .supervisor-page .task-grid,
+  .supervisor-page .task-list {
+    grid-template-columns: 1fr;
+  }
+
+  .supervisor-page .task-card {
+    font-size: 0.85rem;
+  }
+
+  .supervisor-page .task-title {
+    font-size: 0.9rem;
+  }
+
+  .supervisor-page .task-card select {
+    font-size: 0.7rem;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices */
+  body {
+    padding: 8px;
+  }
+
+  .worker-page > h2,
+  .supervisor-page > div {
+    padding: 12px 12px !important;
+    margin: -12px -12px 12px -12px !important;
+  }
+
+  .worker-page > h2 {
+    font-size: 1rem;
+  }
+
+  .worker-page .column {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .worker-page .task {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .supervisor-page .task-card {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .task-form {
+    padding: 12px;
+  }
+
+  .supervisor-page > div h2 {
+    font-size: 1rem;
+  }
+
+  .supervisor-page > div a {
+    font-size: 0.8rem;
+    padding: 8px 12px !important;
+  }
 }
