@@ -56,7 +56,7 @@ def supervisor_board():
     if request.method == "POST":
         try:
             worker_id = request.form.get("assigned_worker") or None
-            status = "not_started"
+            status = "unassigned"  # Default: unassigned
 
             # Validate and sanitize inputs
             title = sanitize_input(request.form.get("title", ""), 100)
@@ -83,6 +83,8 @@ def supervisor_board():
                     if active_count >= 3:
                         status = "scheduled"
                         flash("Worker at capacity - task added to backlog", "info")
+                    else:
+                        status = "not_started"  # Assigned with capacity
                 except (ValueError, TypeError):
                     worker_id = None
 
@@ -118,6 +120,10 @@ def supervisor_board():
 
     # ---------- GET: RENDER BOARD ----------
 
+    unassigned_tasks = Task.query.filter_by(
+        status="unassigned"
+    ).order_by(Task.due_date).all()
+
     current_tasks = Task.query.filter(
         Task.status.in_(["not_started", "active"])
     ).order_by(Task.id.desc()).all()
@@ -150,6 +156,7 @@ def supervisor_board():
         })
     return render_template(
     "supervisor_board.html",
+    unassigned_tasks=unassigned_tasks,
     current_tasks=current_tasks,
     backlog_tasks=backlog_tasks,
     workers=workers,
@@ -197,6 +204,45 @@ def update_task_status(task_id):
     except Exception as e:
         logger.error(f"Error updating task status: {str(e)}")
         flash("An error occurred while updating task status", "error")
+        return redirect(url_for("board.supervisor_board"))
+
+@board_bp.route("/task/<int:task_id>/assign", methods=["POST"])
+@login_required
+def assign_task(task_id):
+    try:
+        task = Task.query.get_or_404(task_id)
+        worker_id = request.form.get("assigned_worker")
+        
+        if not worker_id:
+            flash("Please select a worker", "error")
+            return redirect(url_for("board.supervisor_board"))
+        
+        try:
+            worker_id = int(worker_id)
+        except (ValueError, TypeError):
+            flash("Invalid worker", "error")
+            return redirect(url_for("board.supervisor_board"))
+        
+        # Check worker capacity
+        active_count = Task.query.filter_by(
+            assigned_worker=worker_id,
+            status="active"
+        ).count()
+        
+        task.assigned_worker = worker_id
+        if active_count >= 3:
+            task.status = "scheduled"
+            flash(f"Task assigned to worker - added to backlog (worker at capacity)", "info")
+        else:
+            task.status = "not_started"
+            flash(f"Task assigned successfully", "info")
+        
+        db.session.commit()
+        logger.info(f"Task {task_id} assigned to worker {worker_id} by {current_user.username}")
+        return redirect(url_for("board.supervisor_board"))
+    except Exception as e:
+        logger.error(f"Error assigning task {task_id}: {str(e)}")
+        flash("An error occurred while assigning the task", "error")
         return redirect(url_for("board.supervisor_board"))
 
 @board_bp.route("/task/<int:task_id>/delete", methods=["POST"])
