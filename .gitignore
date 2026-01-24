@@ -134,3 +134,17 @@ data/
 .github/
 GITHUB_SETUP.md
 
+# Deployment & Production files (auto-generated, don't commit)
+DEPLOYMENT*.md
+PRODUCTION*.md
+RAILWAY*.md
+COMPLETION_REPORT.md
+MANIFEST.md
+TEST_REPORT.md
+deploy.sh
+deploy_check.py
+verify_production.sh
+deployment_check.json
+test_results.json
+test_summary.json
+railway.json
