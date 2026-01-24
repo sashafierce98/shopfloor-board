@@ -120,6 +120,7 @@ wheels/
 # Ignore database files except schema
 data/
 !data/.gitkeep
+!data/board.db
 
 # Ignore environment files (actual, not template)
 .env
