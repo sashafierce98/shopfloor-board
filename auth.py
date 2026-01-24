@@ -68,13 +68,7 @@ def login():
 
 @auth_bp.route("/setup", methods=["GET", "POST"])
 def setup():
-    """Only allow supervisor setup with correct token."""
-    # Check if users already exist
-    if User.query.first():
-        logger.warning("Setup attempted when users already exist")
-        flash("Supervisor account already exists. Please log in.", "error")
-        return redirect(url_for("auth.login"))
-    
+    """Allow supervisor setup with correct token."""
     if request.method == "POST":
         try:
             token = request.form.get("token", "").strip()
